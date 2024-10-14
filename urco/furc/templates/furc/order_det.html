@@ -1,0 +1,173 @@
+<!DOCTYPE html> {% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Staff Member Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .content{
+         background-image: url('{% static 'images/order_view_bg.jpg' %}');
+         background-size: cover;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+.chemicals th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+        .link{
+        text-decoration: none;
+        color: #0f64c1;;
+        }
+        .link:hover{
+            color:cadetblue;
+        }
+        .order_details{
+        color: #0f64c1;
+    font-weight: bold;
+        }
+    </style>
+    <script src="{% static 'js/app.js' %}"></script>
+    <script>
+        function closeAlert() {
+            document.querySelector('.alert-bar').style.display = 'none';
+        }
+
+            function openChemicalModal() {
+                document.getElementById("chemicalModal").style.display = "block";
+            }
+
+            // Function to close modal
+            function closeChemicalModal() {
+                document.getElementById("chemicalModal").style.display = "none";
+            }
+    </script>
+</head>
+
+
+<body>
+    {% for message in messages %}
+
+    <div class="alert-bar">
+        <span class="alert-message">{{message}}</span>
+        <button class="close-btn" onclick="closeAlert()">x</button>
+    </div>
+    {% endfor %}
+    <header class="header">
+        <div class="logo">
+            <img src="{% static 'images/flinder-logo_white.png' %}" alt="Flinders University Logo" style="height: 50px;">
+        </div>
+        <div class="title">
+            <p class="headerTitle">Flinders Chemical Management System</p>
+        </div>
+
+        {% if user.is_authenticated %}
+        <div class="welcome-message">
+            Hi, <span id="username">{{request.user}}</span>
+        </div>
+        <div class="sign-out">
+            <a href="/logout/" id="sign-out-link">Sign Out</a>
+        </div>
+        {% endif %}
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <div class="order-details-container">
+                <h2>Order Details</h2>
+                <div class="details">
+                <div><strong>Order ID:</strong> <span class="order_details" id="order-id">{{order.order_id}}</span></div>
+                <div><strong>Experiment Name:</strong> <span class="order_details" id="experiment-name">{{order.exp_name}}</span></div>
+                <div><strong>Lab ID:</strong> <span class="order_details" id="lab-id">{{order.lab_id}}</span></div>
+                <div><strong>Order Date:</strong>  <span class="order_details" id="order-date">{{order.order_date}}</span></div>
+                <div><strong>Updated Date:</strong> <span class="order_details" id="updated-date">{{order.updated_date}} </span></div>
+                <div><strong>Order Status:</strong> <span class="order_details" id="order-status">{{order.order_status}}</span></div>
+                <div><strong>Experiment File:</strong> <a class="link" href="{{order.exp_procedure.url}}" id="experiment-file" download>Download File</a></div>
+                <div><strong>Risk Assessment File:</strong> <a class="link" href="{{order.risk_assessment.url}}" id="risk-assessment-file" download>Download File</a></div>
+                </div>
+                <div class="chemicals">
+                <h3>Chemicals</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Chemical ID</th>
+                        <th>Chemical Name</th>
+                        <th>Systematic Name</th>
+                        <th>Quantity</th>
+                        <th>Risk Category</th>
+                    </tr>
+                    </thead>
+                    <tbody id="chemical-list">
+{% for item in order_items %}
+                            <tr>
+                                <td>{{item.chemical_id.chemical_id}}</td>
+                                <td>{{item.chemical_id.common_name}}</td>
+                                <td>{{item.chemical_id.systematic_name}}</td>
+                                <td>{{item.required_amount}}&ensp;{{item.chemical_id.uom}}</td>
+                                <td>{{item.chemical_id.risk_category}}</td>
+                            </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+                <a href="javascript:history.back()" class="button">Back to Orders</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
