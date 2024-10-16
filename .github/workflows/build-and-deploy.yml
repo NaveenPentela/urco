@@ -4,6 +4,13 @@ on:
   push:
   workflow_dispatch:
 
+env:
+  REGISTRY_NAME: "flinders-app"
+  REPOSITORY_NAME: "flinders"
+  CONTAINER_APP_NAME: "flinders-app"
+  RESOURCE_GROUP: "rg-flinders-app"
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,11 +23,18 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+   
+      - name: Tag image and push to Azure Container Registry
+        run: |
+            az acr login --name ${{ env.REGISTRY_NAME }}
+            docker build -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.REPOSITORY_NAME }}:${{ github.sha }} . 
+            docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.REPOSITORY_NAME }}:${{ github.sha }}
 
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
           appSourcePath: ${{ github.workspace }}
-          acrName: flinders
-          containerAppName: flinders-app
-          resourceGroup: rg-flinders-app
+          acrName: ${{ env.REPOSITORY_NAME }}
+          containerAppName: ${{ env.CONTAINER_APP_NAME }}
+          resourceGroup: ${{ env.RESOURCE_GROUP }}
+          imageToDeploy: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.REPOSITORY_NAME }}:${{ github.sha }}
