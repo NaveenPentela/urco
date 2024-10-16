@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY_NAME: "flinders-app"
+  REGISTRY_NAME: "flinders"
   REPOSITORY_NAME: "flinders"
   CONTAINER_APP_NAME: "flinders-app"
   RESOURCE_GROUP: "rg-flinders-app"
