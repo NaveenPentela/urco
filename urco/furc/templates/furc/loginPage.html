@@ -36,7 +36,7 @@
 				<img src="{% static 'images/flinder-logo_white.png' %}" class="logo-log ml-3 img-fluid" alt="Responsive image">
 			</div>
 			<div class="card-body">
-				<form action="/login/" method="POST">
+				<form action="{% url 'login' %}" method="POST">
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -64,7 +64,7 @@
 			</div>
 			<div class="card-footer">
 				<div class="d-flex justify-content-center links">
-					Don't have an account?<a href="/signupPage/" style="color: #972bad">Sign Up</a>
+					Don't have an account?<a href="{% url 'signupPage' %}" style="color: #972bad">Sign Up</a>
 				</div>
 				<div class="d-flex justify-content-center">
                     <a href="#" style="color: #ff3d3d">Forgot your password?</a>
