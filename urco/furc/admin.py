@@ -7,7 +7,6 @@ class StorageLocationAdmin(admin.ModelAdmin):
     list_display = ('storage_location_id', 'storage_location_name', 'content_type', 'location_object')
 
 admin.site.register(StorageLocation, StorageLocationAdmin)
-
 admin.site.register(User)
 admin.site.register(UserRole)
 admin.site.register(Institute)
