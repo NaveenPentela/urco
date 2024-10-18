@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'urco.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME' : 'flinders-app-db',
-        'USER': 'flindersdb@flinders-app-db',
-        'PASSWORD': 'chem@db@102938475',
+        'NAME' : 'flinders',
+        'USER': 'flindersdb',
+        'PASSWORD': 'chem@db@1029384756',
         'HOST': 'flinders-app-db.mysql.database.azure.com',
         'PORT': '3306',
     }
