@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-bukl)yt8=hzypfoi-+bs6x77drcbgxgbx4988ezm*$&5f909zf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://flinders-app.graywater-f1190982.australiaeast.azurecontainerapps.io', '127.0.0.1']
+ALLOWED_HOSTS = ['flinders-app.graywater-f1190982.australiaeast.azurecontainerapps.io', '127.0.0.1']
 
 
 # Application definition
@@ -134,3 +134,23 @@ MEDIA_URL="/media/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',  # Logs everything (DEBUG level and above)
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'django_app.log'),  # Path to the log file
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',  # Choose the level of logs you want (INFO, ERROR, etc.)
+            'propagate': True,
+        },
+    },
+}
