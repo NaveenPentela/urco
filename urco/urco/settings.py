@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['flinders-app.graywater-f1190982.australiaeast.azurecontainerapps.io', '127.0.0.1']
 
+# settings.py
+CSRF_TRUSTED_ORIGINS = [
+    'https://flinders-app.graywater-f1190982.australiaeast.azurecontainerapps.io'
+]
 
 # Application definition
 
