@@ -206,7 +206,7 @@
         <div class="content">
             <div id="new-order" class="content-section">
                 <h2>Create New Order</h2>
-                <form id="new-order-form" action="/addOrder/" method="POST" onsubmit="submitForm(event)">
+                <form id="new-order-form" action="{% url 'addOrder' %}" method="POST" onsubmit="submitForm(event)">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="lab-select">Select Lab:</label>

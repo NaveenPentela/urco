@@ -115,7 +115,7 @@
                 <h2>Overview</h2>
                 <h3>Recent New Orders</h3>
                 {% for i in pending_order %}
-                <form action="/orderStatusUpdate/" method="POST">
+                <form action="{% url 'orderStatusUpdate' %}" method="POST">
                     {% csrf_token %}
                     <div class="order-item">
                         <p>{{i.order_id}}</p>
@@ -169,7 +169,7 @@
             <div id="new-order" class="content-section" style="display:none;">
                 <h2>New Orders</h2>
                 {% for i in pending_order %}
-                <form action="/orderStatusUpdate/" method="POST">
+                <form action="{% 'orderStatusUpdate' %}" method="POST">
                     {% csrf_token %}
                     <div class="order-item">
                         <p>{{i.order_id}}</p>

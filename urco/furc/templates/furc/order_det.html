@@ -189,7 +189,7 @@
                 </div>
                 <div class="stockUpdate">
                 {% if is_OM_HA %}
-                <form action="/stockUpdate/" method="POST">
+                <form action="{% url 'stockUpdate' %}" method="POST">
                     {% csrf_token %}
                     <input type="text" name="order_id" value={{order.order_id}} hidden>
                     <button type="submit" name="status" value="Approve" class="approve-btn">Confirm<input type="text" name="order_status" value="approve" hidden></button>
