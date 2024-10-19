@@ -117,7 +117,7 @@
                 <form action="{% url 'orderStatusUpdate' %}" method="POST">
                     {% csrf_token %}
                     <div class="order-item">
-                        <p>{{i.order_id}}</p>
+                        <p><a class="orderidLink" href="/orderView/{{item.order_id}}">{{item.order_id}}</a></p>
                         <input type="text" name="order_id" value={{i.order_id}} hidden>
                         <button type="submit" name="status" value="Approve" class="approve-btn">Approve<input type="text" name="order_status" value="approve" hidden></button>
                         <button type="submit" name="status" value="Reject" class="reject-btn">Reject<input type="text" name="order_status" value="reject" hidden></button>
