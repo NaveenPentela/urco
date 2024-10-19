@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'furc'
+    'furc',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +89,10 @@ DATABASES = {
         'HOST': 'flinders-app-db.mysql.database.azure.com',
         'PORT': '3306',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
 AUTH_USER_MODEL = 'furc.User'
@@ -139,22 +143,3 @@ MEDIA_URL="/media/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',  # Logs everything (DEBUG level and above)
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'django_app.log'),  # Path to the log file
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',  # Choose the level of logs you want (INFO, ERROR, etc.)
-            'propagate': True,
-        },
-    },
-}

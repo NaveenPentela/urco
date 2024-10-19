@@ -188,7 +188,7 @@
                 </table>
                 </div>
                 <div class="stockUpdate">
-                {% if is_order_manager %}
+                {% if is_OM_HA %}
                 <form action="/stockUpdate/" method="POST">
                     {% csrf_token %}
                     <input type="text" name="order_id" value={{order.order_id}} hidden>
@@ -196,6 +196,7 @@
                     <button type="submit" name="status" value="Reject" class="reject-btn">Reject<input type="text" name="order_status" value="reject" hidden></button>
                 </form>
                 {% endif %}
+
                     </div>
                 <a href="javascript:history.back()" class="button">Back to Orders</a>
             </div>

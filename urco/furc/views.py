@@ -254,7 +254,9 @@ def orderView(request, order_id):
         lab_stock.append(quantity)
         sort_labs = StockItem.objects.filter(storage_location=storage, chemical_id=chemical_id).order_by('stock_id')
     is_order_manager = request.user.role.role_id == 5
-    params = {'order': order, 'order_items': order_items,'is_order_manager': is_order_manager, 'lab_stock': lab_stock}
+    is_pending = order.order_status == 'Approved by higher'
+    is_OM_HA = is_order_manager and is_pending
+    params = {'order': order, 'order_items': order_items,'is_order_manager': is_order_manager, 'lab_stock': lab_stock, 'is_OM_HA':is_OM_HA}
     return render(request, 'furc/order_det.html', params)
 
 def stockUpdate(request):

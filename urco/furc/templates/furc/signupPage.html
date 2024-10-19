@@ -59,7 +59,7 @@
 				<img src="{% static 'images/flinder-logo_white.png' %}" class="logo-log ml-3 img-fluid" alt="Responsive image">
 			    </div>
                 <div class="card-body">
-                    <form action="/signup/" method="POST">
+                    <form action="{% url 'signUp' %}" method="POST">
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
