@@ -206,7 +206,7 @@
         <div class="content">
             <div id="new-order" class="content-section">
                 <h2>Create New Order</h2>
-                <form id="new-order-form" action="{% url 'addOrder' %}" method="POST" onsubmit="submitForm(event)">
+                <form id="new-order-form" action="{% url 'addOrder' %}" method="POST" onsubmit="submitForm(event)" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="lab-select">Select Lab:</label>
@@ -249,7 +249,6 @@
                         <button type="submit" id="submit-request-btn" style="background-color: #ff9146;">Submit Request</button>
                     </div>
 
-                    <!-- The Modal -->
                     <div id="chemicalModal" class="modal">
                         <div class="modal-content">
                             <span class="close" onclick="closeChemicalModal()">&times;</span>

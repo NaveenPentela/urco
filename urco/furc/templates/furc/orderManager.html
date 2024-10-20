@@ -104,12 +104,13 @@
     <div class="container">
         <div class="sidebar">
             <button onclick="showSection('main')">Main</button>
-            <button onclick="showSection('new-order')">Unchecked Orders</button>
-            <button onclick="showSection('approved-orders')">Approved Orders</button>
-            <button onclick="showSection('rejected-orders')">Rejected Orders</button>
+            <button onclick="showSection('confirmed-orders')">Confirmed Orders</button>
+            <button onclick="showSection('received-orders')">Received Orders</button>
+            <button onclick="showSection('stored-orders')">Stored Orders</button>
+            <button onclick="showSection('delivered-orders')">Delivered Orders</button>
+            <button onclick="showSection('closed-orders')">Closed Orders</button>
         </div>
 
-        <!-- Content Area -->
         <div class="content">
             <div id="main" class="content-section">
                 <h2>Recent Orders</h2>
@@ -133,26 +134,9 @@
                         </table>
             </div>
 
-            <div id="new-order" class="content-section" style="display:none;">
-                <h2>New Orders</h2>
-                {% for i in pending_order %}
-                <form action="{% url 'orderStatusUpdate' %}" method="POST">
-                    {% csrf_token %}
-                    <div class="order-item">
-                        <p>{{i.order_id}}</p>
-                        <input type="text" name="order_id" value={{i.order_id}} hidden>
-                        <button type="submit" name="status" value="Approve" class="approve-btn">Approve<input type="text" name="order_status" value="approve" hidden></button>
-                        <button type="submit" name="status" value="Reject" class="reject-btn">Reject<input type="text" name="order_status" value="reject" hidden></button>
-                    </div>
-                    </form>
-                {% endfor %}
-                <!-- Repeat the order-item div for more orders -->
-            </div>
-
-            <!-- Approved Orders Tab Content -->
-            <div id="approved-orders" class="content-section" style="display:none;">
-                <h2>Approved Orders</h2>
-                <table class="customers" style="border-radius:20px;">
+            <div id="confirmed-orders" class="content-section" style="display:none;">
+                <h2>Confirmed Orders</h2>
+                        <table class="customers" style="border-radius:20px;">
                             <tr>
                                 <th>Order Id:</th>
                                 <th>Exp. Name</th>
@@ -160,7 +144,7 @@
                                 <th>Date</th>
                                 <th>status</th>
                             </tr>
-                    {% for item in approved_order %}
+                    {% for item in confirmed_orders %}
                             <tr>
                                 <td><a class="orderidLink" href="/orderView/{{item.order_id}}">{{item.order_id}}</a></td>
                                 <td>{{item.exp_name}}</td>
@@ -170,13 +154,11 @@
                             </tr>
                     {% endfor %}
                         </table>
-                <!-- Approved orders content goes here -->
             </div>
 
-            <!-- Rejected Orders Tab Content -->
-            <div id="rejected-orders" class="content-section" style="display:none;">
-                <h2>Rejected Orders</h2>
-<table class="customers" style="border-radius:20px;">
+            <div id="received-orders" class="content-section" style="display:none;">
+                <h2>Received Orders</h2>
+                        <table class="customers" style="border-radius:20px;">
                             <tr>
                                 <th>Order Id:</th>
                                 <th>Exp. Name</th>
@@ -184,7 +166,73 @@
                                 <th>Date</th>
                                 <th>status</th>
                             </tr>
-                    {% for item in rejected_order %}
+                    {% for item in received_orders %}
+                            <tr>
+                                <td><a class="orderidLink" href="/orderView/{{item.order_id}}">{{item.order_id}}</a></td>
+                                <td>{{item.exp_name}}</td>
+                                <td>{{item.lab_id}}</td>
+                                <td>{{item.order_date}}</td>
+                                <td>{{item.order_status}}</td>
+                            </tr>
+                    {% endfor %}
+                        </table>
+            </div>
+
+            <div id="stored-orders" class="content-section" style="display:none;">
+                <h2>Stored Orders</h2>
+                        <table class="customers" style="border-radius:20px;">
+                            <tr>
+                                <th>Order Id:</th>
+                                <th>Exp. Name</th>
+                                <th>Lab</th>
+                                <th>Date</th>
+                                <th>status</th>
+                            </tr>
+                    {% for item in stored_orders %}
+                            <tr>
+                                <td><a class="orderidLink" href="/orderView/{{item.order_id}}">{{item.order_id}}</a></td>
+                                <td>{{item.exp_name}}</td>
+                                <td>{{item.lab_id}}</td>
+                                <td>{{item.order_date}}</td>
+                                <td>{{item.order_status}}</td>
+                            </tr>
+                    {% endfor %}
+                        </table>
+            </div>
+
+            <div id="delivered-orders" class="content-section" style="display:none;">
+                <h2>Delivered Orders</h2>
+                        <table class="customers" style="border-radius:20px;">
+                            <tr>
+                                <th>Order Id:</th>
+                                <th>Exp. Name</th>
+                                <th>Lab</th>
+                                <th>Date</th>
+                                <th>status</th>
+                            </tr>
+                    {% for item in delivered_orders %}
+                            <tr>
+                                <td><a class="orderidLink" href="/orderView/{{item.order_id}}">{{item.order_id}}</a></td>
+                                <td>{{item.exp_name}}</td>
+                                <td>{{item.lab_id}}</td>
+                                <td>{{item.order_date}}</td>
+                                <td>{{item.order_status}}</td>
+                            </tr>
+                    {% endfor %}
+                        </table>
+            </div>
+
+            <div id="closed-orders" class="content-section" style="display:none;">
+                <h2>Closed Orders</h2>
+                        <table class="customers" style="border-radius:20px;">
+                            <tr>
+                                <th>Order Id:</th>
+                                <th>Exp. Name</th>
+                                <th>Lab</th>
+                                <th>Date</th>
+                                <th>status</th>
+                            </tr>
+                    {% for item in closed_orders %}
                             <tr>
                                 <td><a class="orderidLink" href="/orderView/{{item.order_id}}">{{item.order_id}}</a></td>
                                 <td>{{item.exp_name}}</td>

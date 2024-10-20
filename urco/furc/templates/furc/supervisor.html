@@ -102,13 +102,12 @@
     <div class="container">
         <div class="sidebar">
             <button onclick="showSection('main')">Main</button>
-            <button onclick="showSection('new-order')">Pending Orders</button>
+            <button onclick="showSection('pending-order')">Pending Orders</button>
             <button onclick="showSection('approved-orders')">Approved Orders</button>
             <button onclick="showSection('rejected-orders')">Rejected Orders</button>
             <button onclick="showSection('escalated-orders')">Escalated Orders</button>
         </div>
 
-        <!-- Content Area -->
         <div class="content">
             <div id="main" class="content-section">
                 <h2>Overview</h2>
@@ -117,7 +116,7 @@
                 <form action="{% url 'orderStatusUpdate' %}" method="POST">
                     {% csrf_token %}
                     <div class="order-item">
-                        <p><a class="orderidLink" href="/orderView/{{item.order_id}}">{{i.order_id}}</a></p>
+                        <p><a class="orderidLink" href="/orderView/{{i.order_id}}">{{i.order_id}}</a></p>
                         <input type="text" name="order_id" value={{i.order_id}} hidden>
                         <button type="submit" name="status" value="Approve" class="approve-btn">Approve<input type="text" name="order_status" value="approve" hidden></button>
                         <button type="submit" name="status" value="Reject" class="reject-btn">Reject<input type="text" name="order_status" value="reject" hidden></button>
@@ -184,15 +183,13 @@
                         </table>
             </div>
 
-            <!-- New Orders Tab Content -->
-
-            <div id="new-order" class="content-section" style="display:none;">
+            <div id="pending-order" class="content-section" style="display:none;">
                 <h2>New Orders</h2>
                 {% for i in pending_order %}
                 <form action="{% url 'orderStatusUpdate' %}" method="POST">
                     {% csrf_token %}
                     <div class="order-item">
-                        <p>{{i.order_id}}</p>
+                        <p><a class="orderidLink" href="/orderView/{{i.order_id}}">{{i.order_id}}</a></p>
                         <input type="text" name="order_id" value={{i.order_id}} hidden>
                         <button type="submit" name="status" value="Approve" class="approve-btn">Approve<input type="text" name="order_status" value="approve" hidden></button>
                         <button type="submit" name="status" value="Reject" class="reject-btn">Reject<input type="text" name="order_status" value="reject" hidden></button>
@@ -200,11 +197,8 @@
                     </div>
                     </form>
                 {% endfor %}
-                <!-- Repeat the order-item div for more orders -->
             </div>
 
-
-            <!-- Approved Orders Tab Content -->
             <div id="approved-orders" class="content-section" style="display:none;">
                 <h2>Approved Orders</h2>
                 <table class="customers" style="border-radius:20px;">
@@ -225,10 +219,8 @@
                             </tr>
                     {% endfor %}
                         </table>
-                <!-- Approved orders content goes here -->
             </div>
 
-            <!-- Rejected Orders Tab Content -->
             <div id="rejected-orders" class="content-section" style="display:none;">
                 <h2>Rejected Orders</h2>
                 <table class="customers" style="border-radius:20px;">
@@ -249,10 +241,8 @@
                             </tr>
                     {% endfor %}
                         </table>
-                <!-- Rejected orders content goes here -->
             </div>
 
-            <!-- Escalated Orders Tab Content -->
             <div id="escalated-orders" class="content-section" style="display:none;">
                 <h2>Escalated Orders</h2>
                 <table class="customers" style="border-radius:20px;">
@@ -273,7 +263,6 @@
                             </tr>
                     {% endfor %}
                         </table>
-                <!-- Escalated orders content goes here -->
             </div>
         </div>
     </div>

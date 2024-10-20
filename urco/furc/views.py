@@ -44,6 +44,8 @@ def logIn(request):
                 return redirect('orderManager')
             if str(role)=='Stock Manager':
                 return redirect('stockManager')
+            if str(role)=='Admin':
+                return redirect('/admin/')
             return redirect('/')
 
         else:
@@ -148,7 +150,13 @@ def highApprover(request):
 
 def orderManager(request):
     recent_orders = Order.objects.filter(order_status='Approved by higher')
-    params = {'recent_orders': recent_orders}
+    confirmed_orders = Order.objects.filter(order_status='Ordered')
+    received_orders = Order.objects.filter(order_status='Received')
+    stored_orders = Order.objects.filter(order_status='Stored')
+    delivered_orders = Order.objects.filter(order_status='Delivered')
+    closed_orders = Order.objects.filter(order_status='Closed')
+
+    params = {'recent_orders': recent_orders, 'confirmed_orders': confirmed_orders, 'received_orders': received_orders, 'stored_orders': stored_orders, 'delivered_orders': delivered_orders, 'closed_orders': closed_orders}
     return render(request, 'furc/orderManager.html', params)
 
 def stockManager(request):
@@ -171,7 +179,7 @@ def previousOrder(request):
 def addOrder(request):
     if request.method == "POST":
         order_id=''
-        if Order.objects.latest('order_id'):
+        if Order.objects.exists():
             last_order = Order.objects.latest('order_id')
             last_order_id = last_order.order_id
             front_order_id = last_order_id[:1]
@@ -180,7 +188,6 @@ def addOrder(request):
             order_id =  f"{front_order_id}{str(new_inc_id).zfill(len(back_order_id))}"
         else:
             order_id = 'E00001'
-        print(order_id)
         lab_id = request.POST.get('lab')
         lab = Laboratory.objects.get(lab_id=lab_id)
         exp_name = request.POST.get('expName')
@@ -206,6 +213,7 @@ def addOrder(request):
 def orderStatusUpdate(request):
     user = request.user
     if request.method == 'POST':
+        print('In post')
         if user.role.user_role=='Supervisor':
             order_id = request.POST['order_id']
             update = request.POST['status']
@@ -235,6 +243,16 @@ def orderStatusUpdate(request):
             order.updated_date = dateutil.utils.today()
             order.save()
             return redirect('highApprover')
+        elif user.role.user_role == 'Order Manager':
+            print('In order manager')
+            order_id = request.POST['order_id']
+            update = request.POST['order_status']
+            order = Order.objects.get(order_id=order_id)
+            order.order_status = update
+            messages.info(request, ' Order is ' + update)
+            order.updated_date = dateutil.utils.today()
+            order.save()
+            return redirect('orderManager')
     return HttpResponse('404-Error')
 
 def orderView(request, order_id):
@@ -256,7 +274,15 @@ def orderView(request, order_id):
     is_order_manager = request.user.role.role_id == 5
     is_pending = order.order_status == 'Approved by higher'
     is_OM_HA = is_order_manager and is_pending
-    params = {'order': order, 'order_items': order_items,'is_order_manager': is_order_manager, 'lab_stock': lab_stock, 'is_OM_HA':is_OM_HA}
+    order_status = ['Ordered', 'Received', 'Stored', 'Delivered', 'Closed']
+    is_update_order = False
+    for item in order_status:
+        if order.order_status==item:
+            is_update_order = True
+            break
+    print(is_update_order)
+    update_list = is_order_manager and is_update_order
+    params = {'order': order, 'order_items': order_items,'is_order_manager': is_order_manager, 'lab_stock': lab_stock, 'is_OM_HA':is_OM_HA, 'update_list': update_list}
     return render(request, 'furc/order_det.html', params)
 
 def stockUpdate(request):

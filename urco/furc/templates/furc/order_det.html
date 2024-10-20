@@ -196,7 +196,25 @@
                     <button type="submit" name="status" value="Reject" class="reject-btn">Reject<input type="text" name="order_status" value="reject" hidden></button>
                 </form>
                 {% endif %}
+                    {% if update_list %}
+                    <form action="{% url 'orderStatusUpdate' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="text" name="order_id" value={{order.order_id}} hidden>
+                        <div class="form-group">
+                            <label for="orderStatus">Update Order Status:</label>
+                            <select class="form-select" aria-label="Default select example" id="orderStatus" name="order_status" required>
+                              <option selected>Update order status</option>
+                              <option value="Ordered">Ordered</option>
+                              <option value="Received">Received</option>
+                              <option value="Stored">Stored</option>
+                              <option value="Delivered">Delivered</option>
+                              <option value="Closed">Closed</option>
+                            </select>
+                        </div>
 
+                        <button type="submit" class="btn btn-primary">Update Status</button>
+                    </form>
+                {% endif %}
                     </div>
                 <a href="javascript:history.back()" class="button">Back to Orders</a>
             </div>
